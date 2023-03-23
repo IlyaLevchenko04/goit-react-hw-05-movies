@@ -1,14 +1,15 @@
+import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Home from '../pages/Home';
-import Cast from './Cast';
-import Reviews from './Reviews';
-import Movies from '../pages/Movies';
-import MovieDetails from '../pages/MovieDetails';
-import SharedLayout from './SharedLayout';
+const Home = lazy(() => import('../pages/Home'));
+const Cast = lazy(() => import('./Cast'));
+const Reviews = lazy(() => import('./Reviews'));
+const Movies = lazy(() => import('../pages/Movies'));
+const MovieDetails = lazy(() => import('../pages/MovieDetails'));
+const SharedLayout = lazy(() => import('./SharedLayout'));
 
 export const App = () => {
   return (
-    <>
+    <Suspense>
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<Home />} />
@@ -19,6 +20,6 @@ export const App = () => {
           </Route>
         </Route>
       </Routes>
-    </>
+    </Suspense>
   );
 };
