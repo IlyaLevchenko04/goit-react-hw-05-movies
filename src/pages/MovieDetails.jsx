@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { getMovieDetails, picturePicker } from 'services/apiFilmsServices';
 import {
