@@ -10,8 +10,6 @@ const Reviews = () => {
     getReviews(movieId).then(({ results }) => setReviews(results));
   }, [movieId]);
 
-  const render = () => {};
-
   return (
     <StyledReviews>
       {reviews.length === 0 && <h2>There are no reviews</h2>}
