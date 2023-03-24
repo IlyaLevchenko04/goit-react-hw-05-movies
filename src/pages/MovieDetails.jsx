@@ -1,6 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import { getMovieDetails, picturePicker } from 'services/apiFilmsServices';
+import {
+  StyledList,
+  StyledContainer,
+  StyledLink,
+  StyledButton,
+  StyledLinkButton,
+} from 'components/styledComponents';
 
 const MovieDetails = () => {
   const [apiResp, setApiResp] = useState({});
@@ -9,16 +17,12 @@ const MovieDetails = () => {
   const locationRef = useRef(location);
 
   useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}?api_key=cbdd4abbcb92dd438a6c3b40fc45e1be`
-    )
-      .then(data => data.json())
-      .then(data => setApiResp(data));
+    getMovieDetails(movieId).then(data => setApiResp(data));
   }, [movieId]);
 
   const {
     title,
-    poster_path,
+    poster_path = 'https://i.stack.imgur.com/XFHxd.jpg',
     genres = [],
     overview,
     release_date = '0000',
@@ -27,24 +31,28 @@ const MovieDetails = () => {
 
   return (
     <>
-      <button>
-        <Link to={locationRef.current.state?.from ?? '/movies'}>Go back</Link>
-      </button>
-      <div>
-        <img src={`https://image.tmdb.org/t/p/w500${poster_path}`} alt="" />
-        <h2>{`${title}(${release_date.slice(0, 4)})`}</h2>
-        <h3>User score{` ${vote_average.toFixed(2)}`}</h3>
-        <h3>Genres</h3>
-        <ul>
-          {genres.map(({ name, id }) => {
-            return <li key={id}>{name}</li>;
-          })}
-        </ul>
-        <h3>Overview</h3>
-        <p>{overview}</p>
-      </div>
-      <Link to={`cast`}>Cast</Link>
-      <Link to="reviews">Reviews</Link>
+      <StyledButton>
+        <StyledLinkButton to={locationRef.current.state?.from ?? '/movies'}>
+          Go back
+        </StyledLinkButton>
+      </StyledButton>
+      <StyledContainer>
+        <img src={picturePicker(poster_path)} alt="" />
+        <div>
+          <h2>{`${title}(${release_date.slice(0, 4)})`}</h2>
+          <h3>User score{` ${(vote_average * 10).toFixed(0)}%`}</h3>
+          <h3>Genres</h3>
+          <StyledList>
+            {genres.map(({ name, id }) => {
+              return <li key={id}>{name}</li>;
+            })}
+          </StyledList>
+          <h3>Overview</h3>
+          <p>{overview}</p>
+        </div>
+      </StyledContainer>
+      <StyledLink to={`cast`}>Cast</StyledLink>
+      <StyledLink to="reviews">Reviews</StyledLink>
       <Outlet />
     </>
   );

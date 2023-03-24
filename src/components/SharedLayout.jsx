@@ -1,13 +1,13 @@
-import { Link } from 'react-router-dom';
+import { StyledNav, StyledLink } from './styledComponents';
 const { Outlet } = require('react-router-dom');
 
 const SharedLayout = () => {
   return (
     <>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/movies">Movies</Link>
-      </nav>
+      <StyledNav>
+        <StyledLink to="/">Home</StyledLink>
+        <StyledLink to="/movies">Movies</StyledLink>
+      </StyledNav>
       <Outlet />
     </>
   );
